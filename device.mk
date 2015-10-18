@@ -124,12 +124,14 @@ PRODUCT_TAGS += dalvik.gc.type-precise
 
 # audio
 PRODUCT_PACKAGES += \
-    audio.a2dp.default \
-    audio.usb.default \
     audio.r_submix.default \
-    libaudio-resampler \
-    tinymix
+    audio.primary.mt6795 \
+    audio_policy.default \
+    libxlog
 
+#light    
+PRODUCT_PACKAGES += \
+    lights.mt6795
 #USE_CUSTOM_AUDIO_POLICY := 1
 
 # Charger
