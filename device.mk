@@ -1,3 +1,18 @@
+# 
+# Copyright 2015 The Android Open Source Project
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 $(call inherit-product, $(SRC_TARGET_DIR)/product/languages_full.mk)
 
 # The gps config appropriate for this device
@@ -7,17 +22,14 @@ $(call inherit-product, vendor/xiaomi/hermes/hermes-vendor-blobs.mk)
 
 LOCAL_PATH := device/xiaomi/hermes
 
-DEVICE_PACKAGE_OVERLAYS := $(LOCAL_PATH)/overlay
+DEVICE_PACKAGE_OVERLAYS += $(LOCAL_PATH)/overlay
 
 # Device uses high-density artwork where available
-PRODUCT_AAPT_CONFIG := normal hdpi xhdpi xxhdpi
+PRODUCT_AAPT_CONFIG := normal xxhdpi
 PRODUCT_AAPT_PREF_CONFIG := xxhdpi
 
 # Recovery allowed devices
 TARGET_OTA_ASSERT_DEVICE := hermes
-
-# No SDCard
-PRODUCT_CHARACTERISTICS := nosdcard
 
 ifeq ($(TARGET_PREBUILT_KERNEL),)
 	LOCAL_KERNEL := $(LOCAL_PATH)/kernel
@@ -25,41 +37,44 @@ else
 	LOCAL_KERNEL := $(TARGET_PREBUILT_KERNEL)
 endif
 
-PRODUCT_COPY_FILES += \
-    $(LOCAL_KERNEL):kernel
-
-# Live Wallpapers
 PRODUCT_PACKAGES += \
-    LiveWallpapers \
-    LiveWallpapersPicker \
-    VisualizationWallpapers \
-    librs_jni
+libxlog
 
+PRODUCT_COPY_FILES += \
+   $(LOCAL_KERNEL):kernel
+
+# Audio
+PRODUCT_PACKAGES += \
+    audio.r_submix.default \
+    audio.primary.mt6795 \
+    audio_policy.default 
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/configs/media_profiles.xml:system/etc/media_profiles.xml \
+    $(LOCAL_PATH)/configs/media_codecs.xml:system/etc/media_codecs.xml \
+    $(LOCAL_PATH)/configs/audio_policy.conf:system/etc/audio_policy.conf \
+    $(LOCAL_PATH)/configs/audio_device.xml:system/etc/audio_device.xml 
+    
+# Bluetooth
+PRODUCT_PACKAGES += \
+    audio.a2dp.default 
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/configs/bt_did.conf:system/etc/bluetooth/bt_did.conf
+   
 # GPS
 PRODUCT_COPY_FILES += \
      $(LOCAL_PATH)/configs/agps_profiles_conf2.xml:system/etc/agps_profiles_conf2.xml 
-
-# APN
-PRODUCT_COPY_FILES += \
-     $(LOCAL_PATH)/configs/apns-conf.xml:system/etc/apns-conf.xml \
-     $(LOCAL_PATH)/configs/spn-conf.xml:system/etc/spn-conf.xml 
-
-# Thermal
-PRODUCT_COPY_FILES += \
-     $(LOCAL_PATH)/configs/.ht120.mtc:system/etc/.tp/.ht120.mtc \
-     $(LOCAL_PATH)/configs/thermal.conf:system/etc/.tp/thermal.conf \
-     $(LOCAL_PATH)/configs/thermal.off.conf:system/etc/.tp/thermal.off.conf \
-     $(LOCAL_PATH)/configs/.thermal_policy_00:system/etc/.tp/.thermal_policy_00 \
-     $(LOCAL_PATH)/configs/.thermal_policy_01:system/etc/.tp/.thermal_policy_01 
-
+     
 # Keyboard layout
 PRODUCT_COPY_FILES += \
      $(LOCAL_PATH)/configs/mtk-kpd.kl:system/usr/keylayout/mtk-kpd.kl \
      $(LOCAL_PATH)/configs/ACCDET.kl:system/usr/keylayout/ACCDET.kl\
-     $(LOCAL_PATH)/configs/AVRCP.kl:system/usr/keylayout/AVRCP.kl 
-  
-  
-# ramdisk
+     $(LOCAL_PATH)/configs/AVRCP.kl:system/usr/keylayout/AVRCP.kl      
+
+#Light    
+PRODUCT_PACKAGES += \
+    lights.default  
+
+# Ramdisk
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/ramdisk/enableswap.sh:root/enableswap.sh \
     $(LOCAL_PATH)/ramdisk/factory_init.project.rc:root/factory_init.project.rc \
@@ -77,6 +92,20 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/ramdisk/meta_init.rc:root/meta_init.rc \
     $(LOCAL_PATH)/ramdisk/ueventd.rc:root/ueventd.rc
 
+# Telecom
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/configs/apns-conf.xml:system/etc/apns-conf.xml \
+    $(LOCAL_PATH)/configs/ecc_list.xml:system/etc/ecc_list.xml \
+    $(LOCAL_PATH)/configs/spn-conf.xml:system/etc/spn-conf.xml \
+
+# Thermal
+PRODUCT_COPY_FILES += \
+     $(LOCAL_PATH)/configs/.ht120.mtc:system/etc/.tp/.ht120.mtc \
+     $(LOCAL_PATH)/configs/thermal.conf:system/etc/.tp/thermal.conf \
+     $(LOCAL_PATH)/configs/thermal.off.conf:system/etc/.tp/thermal.off.conf \
+     $(LOCAL_PATH)/configs/.thermal_policy_00:system/etc/.tp/.thermal_policy_00 \
+     $(LOCAL_PATH)/configs/.thermal_policy_01:system/etc/.tp/.thermal_policy_01 
+    
 # These are the hardware-specific features
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/android.hardware.consumerir.xml:system/etc/permissions/android.hardware.consumerir.xml \
@@ -112,27 +141,12 @@ PRODUCT_COPY_FILES += \
 
 # media	
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/configs/media_profiles.xml:system/etc/media_profiles.xml \
-    $(LOCAL_PATH)/configs/media_codecs.xml:system/etc/media_codecs.xml \
-    $(LOCAL_PATH)/configs/audio_policy.conf:system/etc/audio_policy.conf \
-    $(LOCAL_PATH)/configs/audio_device.xml:system/etc/audio_device.xml \
     frameworks/av/media/libstagefright/data/media_codecs_google_audio.xml:system/etc/media_codecs_google_audio.xml \
     frameworks/av/media/libstagefright/data/media_codecs_google_telephony.xml:system/etc/media_codecs_google_telephony.xml \
     frameworks/av/media/libstagefright/data/media_codecs_google_video_le.xml:system/etc/media_codecs_google_video_le.xml
 
 PRODUCT_TAGS += dalvik.gc.type-precise
 
-# audio
-PRODUCT_PACKAGES += \
-    audio.r_submix.default \
-    audio.primary.mt6795 \
-    audio_policy.default \
-    libxlog
-
-#light    
-PRODUCT_PACKAGES += \
-    lights.mt6795
-#USE_CUSTOM_AUDIO_POLICY := 1
 
 # Charger
 PRODUCT_PACKAGES += \
@@ -145,6 +159,7 @@ PRODUCT_PACKAGES += \
     dhcpcd.conf \
     wpa_supplicant \
     wpa_supplicant.conf
+    
 
 # FM Radio
 #PRODUCT_PACKAGES += \
@@ -165,7 +180,6 @@ PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
        camera.disable_zsl_mode=1 \
 	 ro.mount.fs=EXT4 \
 	 persist.sys.usb.config=mtp,mass_storage,adb
-
 
 PRODUCT_PROPERTY_OVERRIDES += \
 	 ro.kernel.android.checkjni=0

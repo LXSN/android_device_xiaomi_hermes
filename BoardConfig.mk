@@ -1,3 +1,19 @@
+#
+# Copyright 2015 The Android Open Source Project
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# mt6795 platform boardconfig
 LOCAL_PATH := device/xiaomi/hermes
 -include vendor/xiaomi/hermes/BoardConfigVendor.mk
 
@@ -8,15 +24,21 @@ USE_CAMERA_STUB := true
 # inherit from the proprietary version
 
 # Platform
+ARCH_ARM_HAVE_TLS_REGISTER := true
 TARGET_BOARD_PLATFORM := mt6795
 TARGET_NO_BOOTLOADER := true
+TARGET_USERIMAGES_USE_EXT4 := true
+TARGET_NO_FACTORYIMAGE := true
+
+TARGET_LDPRELOAD += libxlog.so
 
 # CPU
 TARGET_ARCH := arm64
 TARGET_ARCH_VARIANT := armv8-a
 TARGET_CPU_ABI := arm64-v8a
 TARGET_CPU_ABI2 :=
-TARGET_CPU_VARIANT := generic
+TARGET_CPU_VARIANT := cortex-a53
+TARGET_CPU_SMP := true
 
 TARGET_2ND_ARCH := arm
 TARGET_2ND_ARCH_VARIANT := armv7-a-neon
@@ -30,8 +52,27 @@ TARGET_USES_64_BIT_BINDER := true
 TARGET_BOOTLOADER_BOARD_NAME := mt6795
 
 # MTK Hardware
-#BOARD_HAS_MTK_HARDWARE := true
-COMMON_GLOBAL_CFLAGS += -DMTK_HARDWARE
+BOARD_HAS_MTK_HARDWARE := true
+MTK_HARDWARE := true
+BOARD_USES_LEGACY_MTK_AV_BLOB := true
+
+# Add MTK compile options to wrap MTK's modifications on AOSP.
+COMMON_GLOBAL_CFLAGS += -DMTK_AOSP_ENHANCEMENT
+COMMON_GLOBAL_CPPFLAGS += -DMTK_AOSP_ENHANCEMENT
+
+# MTK_GPS_SUPPORT
+BOARD_GPS_LIBRARIES := true
+
+# MTK_AGPS_APP 
+#BOARD_AGPS_SUPL_LIBRARIES := false
+
+# BOARD_CONNECTIVITY_VENDOR  MediaTek
+#BOARD_CONNECTIVITY_MODULE := MT6630 
+#BOARD_MEDIATEK_USES_GPS := true
+
+BOARD_CONNECTIVITY_VENDOR := MediaTek
+BOARD_USES_MTK_AUDIO := true
+
 
 #Use dlmalloc instead of jemalloc for mallocs
 #MALLOC_IMPL := dlmalloc
@@ -41,18 +82,23 @@ COMMON_GLOBAL_CFLAGS += -DMTK_HARDWARE
 #TARGET_KERNEL_HEADER_ARCH := arm64
 #TARGET_KERNEL_SOURCE := kernel/xiaomi/hermes
 #TARGET_KERNEL_CONFIG := hermes_defconfig
+TARGET_USES_64_BIT_BINDER := true
+TARGET_IS_64_BIT := true
 BOARD_KERNEL_CMDLINE := bootopt=64S3,32N2,64N2
 BOARD_KERNEL_BASE := 0x40078000
 BOARD_KERNEL_PAGESIZE := 2048
-BOARD_MKBOOTIMG_ARGS := --base 0x40078000 --pagesize 2048 --kernel_offset 0x00008000 --ramdisk_offset 0x03f88000 --second_offset 0x00e88000 --tags_offset 0x0df88000 --board vJB7-02
+BOARD_MKBOOTIMG_ARGS := --base 0x40078000 --pagesize 2048 --kernel_offset 0x00008000 --ramdisk_offset 0x03f88000 --second_offset 0x00e88000 --tags_offset 0x0df88000 --board Bule
 TARGET_PREBUILT_KERNEL := $(LOCAL_PATH)/kernel
 
+TARGET_KMODULES := true
 # Disable memcpy opt (for audio libraries)
 TARGET_CPU_MEMCPY_OPT_DISABLE := true
 
 # Display
 USE_OPENGL_RENDERER := true
 BOARD_EGL_CFG := $(LOCAL_PATH)/configs/egl.cfg
+TARGET_SCREEN_HEIGHT := 1920
+TARGET_SCREEN_WIDTH := 1080
 
 # Flags
 COMMON_GLOBAL_CFLAGS += -DNO_SECURE_DISCARD
@@ -73,20 +119,29 @@ TARGET_PROVIDES_INIT_RC := true
 
 TARGET_SYSTEM_PROP := $(LOCAL_PATH)/system.prop
 
+# RIL
+
+BOARD_CONNECTIVITY_VENDOR := MediaTek
+BOARD_CONNECTIVITY_MODULE := conn_soc
+
+
 # Bluetooth
+BOARD_HAVE_BLUETOOTH := true
+BOARD_HAVE_BLUETOOTH_MTK := true
+BOARD_BLUETOOTH_DOES_NOT_USE_RFKILL := true
 BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := $(LOCAL_PATH)/bluetooth
 
-
-# WiFi
-WPA_SUPPLICANT_VERSION           := VER_0_8_X
-BOARD_WPA_SUPPLICANT_DRIVER      := NL80211
+# MTK_WLAN_SUPPORT
+BOARD_WLAN_DEVICE := MediaTek
+WPA_SUPPLICANT_VERSION := VER_0_8_X_MTK
+BOARD_HOSTAPD_DRIVER := NL80211
+BOARD_HOSTAPD_PRIVATE_LIB := lib_driver_cmd_mt66xx
+BOARD_WPA_SUPPLICANT_DRIVER := NL80211
 BOARD_WPA_SUPPLICANT_PRIVATE_LIB := lib_driver_cmd_mt66xx
-BOARD_HOSTAPD_DRIVER             := NL80211
-BOARD_HOSTAPD_PRIVATE_LIB        := lib_driver_cmd_mt66xx
 WIFI_DRIVER_FW_PATH_PARAM:="/dev/wmtWifi"
 WIFI_DRIVER_FW_PATH_STA:=STA
 WIFI_DRIVER_FW_PATH_AP:=AP
-WIFI_DRIVER_FW_PATH_STA:=P2P
+WIFI_DRIVER_FW_PATH_P2P:=P2P
 
 # make_ext4fs requires numbers in dec format
 TARGET_USERIMAGES_USE_EXT4:=true

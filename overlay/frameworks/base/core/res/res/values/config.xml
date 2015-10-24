@@ -71,12 +71,17 @@
         <item>csd,41,41,3,-1,true</item>
     </string-array>
 
+    <!-- This string array should be overridden by the device to present a list of radio
+         attributes.  This is used by the connectivity manager to decide which networks can coexist
+         based on the hardware -->
+    <!-- An Array of "[ConnectivityManager connectionType],
+                      [# simultaneous connection types]"  -->
     <string-array translatable="false" name="radioAttributes">
-        <item>1,1</item>
-        <item>0,1</item>
-        <item>7,1</item>
-        <item>40,1</item>
-        <item>41,1</item>
+        <item>"1,1"</item>
+        <item>"0,1"</item>
+        <item>"7,1"</item>
+        <item>"40,1"</item>
+        <item>"41,1"</item>
     </string-array>
 
     <string-array name="config_tether_usb_regexs">
@@ -115,21 +120,33 @@
     <bool name="config_automatic_brightness_available">true</bool>
 
     <integer-array name="config_autoBrightnessLevels">
-        <item>16</item>
-        <item>32</item>
+        <item>2</item>
+        <item>10</item>
+        <item>30</item>
+        <item>40</item>
         <item>50</item>
-        <item>100</item>
-        <item>140</item>
-        <item>180</item>
-        <item>240</item>
-        <item>300</item>
-        <item>600</item>
-        <item>1000</item>
+        <item>60</item>
+        <item>80</item>
+        <item>85</item>
+        <item>110</item>
+        <item>150</item>
+        <item>260</item>
+        <item>380</item>
+        <item>500</item>
+        <item>700</item>
+        <item>900</item>
+        <item>1300</item>
         <item>2000</item>
-        <item>3000</item>
         <item>4000</item>
+        <item>6000</item>
         <item>8000</item>
         <item>10000</item>
+        <item>13000</item>
+        <item>16000</item>
+        <item>20000</item>
+        <item>24000</item>
+        <item>28000</item>
+        <item>34000</item>
     </integer-array>
 
     <!-- Array of output values for LCD backlight corresponding to the LUX values
@@ -138,69 +155,52 @@
          The brightness values must be between 0 and 255 and be non-decreasing.
          This must be overridden in platform specific overlays -->
     <integer-array name="config_autoBrightnessLcdBacklightValues">
-        <item>30</item>
-        <item>40</item>
-        <item>50</item>
-        <item>60</item>
-        <item>70</item>
-        <item>80</item>
-        <item>102</item>
-        <item>102</item>
-        <item>102</item>
-        <item>102</item>
-        <item>102</item>
-        <item>180</item>
-        <item>200</item>
-        <item>210</item>
-        <item>230</item>
+        <item>20</item>
+        <item>52</item>
+        <item>83</item>
+        <item>92</item>
+        <item>99</item>
+        <item>105</item>
+        <item>114</item>
+        <item>116</item>
+        <item>124</item>
+        <item>134</item>
+        <item>152</item>
+        <item>164</item>
+        <item>173</item>
+        <item>184</item>
+        <item>192</item>
+        <item>204</item>
+        <item>218</item>
+        <item>241</item>
         <item>255</item>
-    </integer-array>
-    <integer-array name="config_autoBrightnessButtonBacklightValues">
         <item>255</item>
-	<item>255</item>
-	<item>255</item>
-	<item>255</item>
-	<item>255</item>
-	<item>255</item>
-	<item>255</item>
-	<item>255</item>
-	<item>255</item>
-	<item>255</item>
-	<item>255</item>
-	<item>255</item>
-	<item>255</item>
-	<item>255</item>
-	<item>255</item>
-	<item>255</item>
-    </integer-array>
-    <integer-array name="config_autoBrightnessKeyboardBacklightValues">
         <item>255</item>
-	<item>255</item>
-	<item>255</item>
-	<item>255</item>
-	<item>255</item>
-	<item>255</item>
-	<item>255</item>
-	<item>255</item>
-	<item>255</item>
-	<item>255</item>
-	<item>255</item>
-	<item>255</item>
-	<item>255</item>
-	<item>255</item>
-	<item>255</item>
-	<item>255</item>
-    </integer-array>
-    
-    <!-- Boolean indicating if restoring network selection should be skipped -->
-    <!-- The restoring is handled by modem if it is true -->
-    <bool translatable="false" name="skip_restoring_network_selection">true</bool>
+        <item>255</item>
+        <item>255</item>
+        <item>255</item>
+        <item>255</item>
+        <item>255</item>
+        <item>255</item>
+	</integer-array>
 
-    <!-- Set to true to add links to Cell Broadcast app from Settings and MMS app. -->
-    <bool name="config_cellBroadcastAppLinks">true</bool>
+    <!--  devices normally don't light up their buttons while operating -->
+	<integer name="config_buttonBrightnessSettingDefault">0</integer>
 
-    <!-- Shutdown if the battery temperature exceeds (this value * 0.1) Celsius. -->
-    <integer name="config_shutdownBatteryTemperature">680</integer>
+<!-- True if button brightness should be configurable even if default
+         value is set to 0 -->
+	<bool name="config_buttonBrightnessForceConfigurable">true</bool>
+
+    <!-- Overridden brightness value of enabled state if button brightness is
+         forced to be configurable -->
+    <integer name="config_buttonBrightnessOverriddenEnabledValue">255</integer>
+
+    <!-- Default value for proximity check on screen wake
+         NOTE ! - Enable for devices that have a fast response proximity sensor (ideally < 300ms)
+    -->
+    <bool name="config_proximityCheckOnWake">true</bool>
+    <integer name="config_proximityCheckTimeout">250</integer>
+    <bool name="config_proximityCheckOnWakeEnabledByDefault">true</bool>
 
     <bool name="config_ui_enableFadingMarquee">false</bool>
 
