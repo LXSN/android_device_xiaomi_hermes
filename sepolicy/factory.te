@@ -29,6 +29,17 @@ init_daemon_domain(factory)
 allow factory FM50AF_device:chr_file { read write ioctl open };
 allow factory AD5820AF_device:chr_file { read write ioctl open };
 allow factory DW9714AF_device:chr_file { read write ioctl open };
+allow factory DW9714A_device:chr_file { read write ioctl open };
+allow factory LC898122AF_device:chr_file { read write ioctl open };
+allow factory LC898212AF_device:chr_file { read write ioctl open };
+allow factory BU6429AF_device:chr_file { read write ioctl open };
+allow factory DW9718AF_device:chr_file { read write ioctl open };
+allow factory DW9761BAF_device:chr_file { read write ioctl open };
+allow factory BU64745GWZAF_device:chr_file { read write ioctl open };
+allow factory lcm3d_device:chr_file { read write ioctl open };
+allow factory gesture_device:chr_file { read write ioctl open };
+allow factory mouse_device:chr_file { read write ioctl open };
+allow factory drv2605_device:chr_file { read write ioctl open };
 allow factory MTK_SMI_device:chr_file { read ioctl open };
 allow factory accdet_device:chr_file { read ioctl open };
 allow factory als_ps_device:chr_file { read ioctl open };

@@ -2,6 +2,7 @@
 # MTK Policy Rule
 # ==============================================
 
+allow mediaserver mtk_rrc_device:chr_file { read write ioctl open };
 
 # Date : WK14.31
 # Operation : Migration
@@ -23,6 +24,9 @@ allow mediaserver sdcard_internal:dir { write create add_name };
 allow mediaserver sdcard_internal:file create;
 allow mediaserver nvram_data_file:dir { add_name write search };
 allow mediaserver nvram_data_file:file { write getattr setattr read create open };
+allow mediaserver nvram_data_file:lnk_file read;
+allow mediaserver nvdata_file:dir { add_name write search };
+allow mediaserver nvdata_file:file { write getattr setattr read create open };
 allow mediaserver fuse:dir remove_name;
 allow mediaserver fuse:file unlink;
 
@@ -123,11 +127,13 @@ allow mediaserver block_device:dir search;
 allow mediaserver FM50AF_device:chr_file { read write ioctl open };
 allow mediaserver AD5820AF_device:chr_file { read write ioctl open };
 allow mediaserver DW9714AF_device:chr_file { read write ioctl open };
+allow mediaserver AK7345AF_device:chr_file { read write ioctl open };
 allow mediaserver DW9714A_device:chr_file { read write ioctl open };
 allow mediaserver LC898122AF_device:chr_file { read write ioctl open };
 allow mediaserver LC898212AF_device:chr_file { read write ioctl open };
 allow mediaserver BU6429AF_device:chr_file { read write ioctl open };
 allow mediaserver DW9718AF_device:chr_file { read write ioctl open };
+allow mediaserver DW9761BAF_device:chr_file { read write ioctl open };
 allow mediaserver BU64745GWZAF_device:chr_file { read write ioctl open };
 
 # Data : WK14.38
@@ -342,4 +348,19 @@ allow mediaserver proc_mtktz:file { read write open };
 allow mediaserver proc_thermal:file read;
 allow mediaserver system_data_file:file setattr;
 
+# Date : WK14.52
+# Operation : WVL1 IT
+# Purpose : SVP module operates secmem driver
+allow mediaserver mobicore_data_file:file getattr;
+allow mediaserver proc_secmem:file ioctl;
+
+# Date : WK15.03
+# Operation : Migration
+# Purpose : offloadservice
+allow mediaserver offloadservice_device:chr_file { read write ioctl open };
+
+# Date : WK15.11
+# Operation : SRS
+# Purpose : SRS
+allow mediaserver system_data_file:file { getattr open read ioctl lock append write };
 

@@ -10,6 +10,7 @@ allow radio rild2_socket:sock_file write;
 allow radio rild3_socket:sock_file write;
 allow radio rild4_socket:sock_file write;
 allow radio rild_via_socket:sock_file write;
+allow radio rild_md2_socket:sock_file write;
 allow radio sdcard_internal:dir { write create add_name };
 allow radio sdcard_internal:file { read write getattr open create };
 ##violate never allow rule
@@ -22,6 +23,7 @@ allow radio zygote:unix_stream_socket { getopt getattr };
 # Operation : Migration
 # Purpose : for mtkrild and viarild
 allow radio mtkrild:unix_stream_socket connectto;
+allow radio mtkrildmd2:unix_stream_socket connectto;
 allow radio statusd:unix_stream_socket connectto;
 
 # Date : WK14.38 2014/09/16
@@ -77,6 +79,7 @@ unix_socket_connect(radio, rild-dongle, ril-3gddaemon)
 # Operation : IT
 # Purpose : enable ATCId in engineer mode.
 allow radio ctl_atcid-daemon-u_prop:property_service set;
+allow radio ctl_atci_service_prop:property_service set;
 allow radio persist_service_atci_prop:property_service set;
 
 # Date : 2014/11/05

@@ -36,8 +36,8 @@ TARGET_LDPRELOAD += libxlog.so
 TARGET_ARCH := arm64
 TARGET_ARCH_VARIANT := armv8-a
 TARGET_CPU_ABI := arm64-v8a
-TARGET_CPU_ABI2 :=
-TARGET_CPU_VARIANT := cortex-a53
+TARGET_CPU_ABI2 := 
+TARGET_CPU_VARIANT := generic
 TARGET_CPU_SMP := true
 
 TARGET_2ND_ARCH := arm
@@ -45,9 +45,10 @@ TARGET_2ND_ARCH_VARIANT := armv7-a-neon
 TARGET_2ND_CPU_ABI := armeabi-v7a
 TARGET_2ND_CPU_ABI2 := armeabi
 TARGET_2ND_CPU_VARIANT := cortex-a53
-
 TARGET_BOARD_SUFFIX := _64
 TARGET_USES_64_BIT_BINDER := true
+
+TARGET_CPU_CORTEX_A53 := true
 
 TARGET_BOOTLOADER_BOARD_NAME := mt6795
 
@@ -190,9 +191,12 @@ BOARD_SEPOLICY_UNION := \
     aal.te \
     aee_core_forwarder.te \
     akmd09911.te \
+    qmc6983d.te \
     akmd8963.te \
     akmd8975.te \
     ami304d.te \
+    ist8303.te \
+    st480.te \
     atcid.te \
     atci_service.te \
     audiocmdservice_atci.te \
@@ -217,6 +221,7 @@ BOARD_SEPOLICY_UNION := \
     enableswap.te \
     factory.te \
     fota1.te \
+    fuelgauged.te \
     geomagneticd.te \
     GoogleOtaBinder.te \
     gsm0710muxdmd2.te \
@@ -254,6 +259,8 @@ BOARD_SEPOLICY_UNION := \
     viarild.te \
     s62xd.te \
     sn.te \
+    epdg_wod.te \
+    ipsec.te \
     terservice.te \
     thermald.te \
     thermal_manager.te \
@@ -267,7 +274,9 @@ BOARD_SEPOLICY_UNION := \
     wmt_loader.te \
     icusbd.te \
     xlog.te \
-    mobicore.te 
+    mobicore.te \
+    program_binary.te \
+    genfs_contexts
      
 BOARD_SEPOLICY_UNION += \
 	adbd.te \

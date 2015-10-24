@@ -2,3 +2,4 @@
 # MTK Policy Rule
 # ============
 
+dontaudit lmkd zygote:dir *;

@@ -10,6 +10,7 @@
 allow dumpstate mtkbt:binder call;
 allow dumpstate MtkCodecService:binder call;
 allow dumpstate nvram_agent_binder:binder call;
+allow dumpstate nvram_backup_binder:binder call;
 allow dumpstate ppl_agent:binder call;
 allow dumpstate GoogleOtaBinder:binder call;
 

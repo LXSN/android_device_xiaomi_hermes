@@ -130,5 +130,31 @@ allow system_app proc_secmem:file rw_file_perms;
 # Operation: SQC
 # Purpose: [Settings][Developer options module will communicate with all Services through binder call]
 # Package: com.android.settings
+allow system_app sysfs:file write;
 binder_call(system_app, mtkbt)
 binder_call(system_app, MtkCodecService)
+
+# Date : 2014/11/26
+# Operation: SQC
+# Purpose: [Settings][Browser][warning kernel API'selinux enforce violation:sdcardd' when do stress test with ' AT_ST_Browser_Test.rar']
+# Package: com.android.settings
+allow system_app platform_app_tmpfs:file write;
+
+# Date : 2015/01/13
+# Operation: SQC
+# Purpose: access ashmem of isolated_app
+# Package: com.fw.upgrade.sysoper
+dontaudit system_app isolated_app_tmpfs:file write;
+
+# Date : 2015/01/14
+# Operation: SQC
+# Purpose: access ashmem of untrusted_app
+# Package: android.ui
+dontaudit system_app untrusted_app_tmpfs:file write;
+
+# Date : 2015/01/27
+# Operation: SQC
+# Purpose: It's not normal behavior, that system_app want to access radio_file_data
+# Package: android.ui
+dontaudit system_app radio_data_file:dir search;
+

@@ -40,9 +40,11 @@ binder_use(mtkbt)
 allow mtkbt bluetooth_service:service_manager add;
 
 # result of audit2allow
-allow mtkbt nvram_data_file:file { setattr read write getattr open };
-allow mtkbt nvram_data_file:file create;
-allow mtkbt nvram_data_file:dir add_name;
+allow mtkbt nvram_data_file:file { create setattr read write getattr open };
+allow mtkbt nvram_data_file:lnk_file read;
+allow mtkbt nvram_data_file:dir { write add_name search};
+allow mtkbt nvdata_file:file { create setattr read write getattr open };
+allow mtkbt nvdata_file:dir { write add_name search };
 allow mtkbt system_data_file:file create;
 
 allow mtkbt block_device:dir search;
@@ -68,7 +70,7 @@ allow mtkbt batterywarning:dir search;
 allow mtkbt batterywarning:file { read getattr open };
 allow mtkbt bluetooth:unix_dgram_socket sendto;
 allow mtkbt bt_data_file:dir { write getattr read remove_name open add_name };
-allow mtkbt bt_data_file:file { write getattr read create unlink open };
+allow mtkbt bt_data_file:file { write getattr read create unlink open append};
 allow mtkbt bluetooth:binder transfer;
 allow mtkbt bt_data_file:dir create;
 allow mtkbt bluetooth_data_file:dir search;
@@ -119,6 +121,8 @@ allow mtkbt netdiag:dir search;
 allow mtkbt netdiag:file { read getattr open };
 allow mtkbt nvram_agent_binder:dir search;
 allow mtkbt nvram_agent_binder:file { read getattr open };
+allow mtkbt nvram_backup_binder:dir search;
+allow mtkbt nvram_backup_binder:file { read getattr open };
 allow mtkbt nvram_data_file:file { read write getattr open };
 allow mtkbt nvram_data_file:dir write;
 allow mtkbt orientationd:dir search;
@@ -172,3 +176,6 @@ allow mtkbt bluetooth_data_file:file { read open getattr};
 allow mtkbt system_data_file:dir create;
 allow mtkbt fuse:dir { search write add_name write getattr read remove_name open };
 allow mtkbt fuse:file { read open getattr write create unlink };
+
+allow mtkbt system_data_file:dir { read remove_name };
+allow mtkbt nvram_device:chr_file open;

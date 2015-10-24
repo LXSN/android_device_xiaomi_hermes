@@ -21,6 +21,8 @@ binder_service(emdlogger)
 #=============allow emdlogger to set ==============
 allow emdlogger debug_mdlogger_prop:property_service set;
 allow emdlogger debug_prop:property_service set;
+allow emdlogger persist_mtklog_prop:property_service set;
+allow emdlogger system_radio_prop:property_service set;
 
 #=========================================================
 # ccci device for internal modem
